@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оценка вероятности тромбоэмболии легочной артерии по шкале Geneva</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/geneva-style.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="header">
+
+    </div>
+    <div class="choose-list container">
+       <table class="geneva-table">
+           <caption>
+               <h2>Оценка вероятности тромбоэмболии легочной артерии по шкале Geneva</h2>
+           </caption>
+           <tr>
+               <td>
+                   <label for="chss">ЧСС, уд/мин</label>
+                   <select name="chss" id="chss">
+                       <option value="0">Выберите один из вариантов:</option>
+                       <option value="3">75-94</option>
+                       <option value="5">≥95</option>
+                   </select>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="age">
+                       <input type="checkbox" name="age" id="age" value="1">
+                       Возраст > 65 лет
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="anamnes">
+                       <input type="checkbox" name="anamnes" id="anamnes" value="3">
+                       ТГВ или ТЭЛА в анамнезе
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="operation">
+                       <input type="checkbox" name="operation" id="operation" value="2">
+                       Операция или перелом в течение посленего месяца
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="tumor">
+                       <input type="checkbox" name="tumor" id="tumor" value="2">
+                       Злокачественная опухоль
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="bottom-pain">
+                       <input type="checkbox" name="bottom-pain" id="bottom-pain" value="3">
+                       Односторонняя боль в нижней конечности
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="hemoptysis">
+                       <input type="checkbox" name="hemoptysis" id="hemoptysis" value="2">
+                       Кровохарканье
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <label for="edema">
+                       <input type="checkbox" name="edema" id="edema" value="4">
+                       Боль при пальпации нижних конечностей и односторонний отек
+                   </label>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <input type="button" id="clear-btn" class="btn btn-secondary" value="Сброс">
+               </td>
+           </tr>
+           <tr>
+               <td class="result">
+
+               </td>
+           </tr>
+       </table>
+    </div>
+</body>
+<script>
+    var data = "Result";
+    $('#clear-btn').click(function () {
+        $('input').prop('checked',false);
+        $('select option[value=0]').prop('selected', true);
+    });
+
+    $(':input').click(function () {
+        $.ajax({
+          type: 'GET',
+          url: 'geneva.php',
+          data: {
+              chss: $('#chss').val(),
+              age: $('input[name=age]:checked').val(),
+              anamnes: $('input[name=anamnes]:checked').val(),
+              operation: $('input[name=operation]:checked').val(),
+              tumor: $('input[name=tumor]:checked').val(),
+              bottomPain: $('input[name=bottom-pain]:checked').val(),
+              hemoptysis: $('input[name=hemoptysis]:checked').val(),
+              edema: $('input[name=edema]:checked').val()
+          }
+        })
+            .done(function (result) {
+                $('.result').html(result);
+            })
+            .fail(function () {
+                $(".result").html("<div class=\"alert alert-danger\">Ошибка сервера!</div>")
+            });
+    });
+
+</script>
+</html>

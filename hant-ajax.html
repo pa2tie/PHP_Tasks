@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Шкала Ханта Хесса</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/hant-style.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="header">
+
+    </div>
+    <div class="choose-list container">
+        <form>
+            <table class="hant-table">
+                <caption>
+                    <h1>Шкала Ханта Хесса</h1>
+                </caption>
+
+                <tr>
+                    <td>
+                        <h2>Критерии</h2>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-state1">
+                            <input type="radio" id="hant-state1" name="hant-criterion" value="1" checked>
+                            Бессимптомное течение, возможна слабовыраженная головная боль или ригидность мышц затылка
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-state2">
+                            <input type="radio" id="hant-state2" name="hant-criterion" value="2">
+                            Головная боль умеренная или слабовыраженная; менингеальный синдром выражен;
+                            очаговая неврологическая симптоматика отсутствует за исключением возможного поражения глазодвигательных нервов
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-state3">
+                            <input type="radio" id="hant-state3" name="hant-criterion" value="3">
+                            Менингеальный синдром выражен; сознание расстроено до оглушения; очаговая симптоматика умеренно выражена
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-state4">
+                            <input type="radio" id="hant-state4" name="hant-criterion" value="4">
+                            Менингеальный синдром выражен; сознание расстроено до сопора; очаговая симптоматика выражена; имеются признаки нарушения витальных функций
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-state5">
+                            <input type="radio" id="hant-state5" name="hant-criterion" value="5">
+                            Кома различной глубины; акинетический мутизм, децеребрационная ригидность
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <h2>Дополнительно</h2>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="hant-addition">
+                            <input type="checkbox" id="hant-addition" name="hant-addition" value="1">
+                            Артериальная гипертензия, сахарный диабет, атеросклероз, ХОБЛ или вазоспазм при ангиографии
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="button" id="calculate-btn" class="btn btn-primary" value="Рассчитать">
+                        <input type="button" id="clear-btn" class="btn btn-secondary" value="Сброс">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="result">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+<script>
+    var data = "Result";
+    $('#calculate-btn').click(function () {
+       $.ajax({
+           type: 'GET',
+           url: 'hant.php',
+           data: {
+               hantCriterion: $('input[name=hant-criterion]:checked').val(),
+               hantAddition: $('input[name=hant-addition]:checked').val()
+           }
+       })
+           .done(function (result) {
+               $('.result').html(result);
+            })
+           .fail(function () {
+               $(".result").html("<div class=\"alert alert-danger\">Ошибка сервера!</div>")
+           });
+
+    });
+
+    $('#clear-btn').click(function () {
+        $('input[name=hant-criterion]').prop('checked',false);
+        $('#hant-state1').prop('checked',true);
+        $('input[name=hant-addition]').prop('checked',false);
+        $(".alert").remove();
+    });
+</script>
+</html>

@@ -1,0 +1,48 @@
+h2 {
+    margin-top: 20px;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+    color: #5a6268;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.calcs {
+    float: left;
+    width: 48%;
+    border: 1px solid #5a6268;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.calcs a {
+    display: block;
+    margin: 15px 0;
+}
+
+h4 {
+    color: #5a6268;
+    text-align: center;
+}
+
+.tasks {
+    width: 48%;
+    float: left;
+    border: 1px solid #5a6268;
+    padding: 10px;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.tasks a {
+    width: 20%;
+    padding: 5px 15px;
+    display: inline-block;
+    margin: 15px 0;
+}

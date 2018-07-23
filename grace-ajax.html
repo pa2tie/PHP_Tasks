@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Шкала GRACE</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/grace-style.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="header">
+
+    </div>
+    <div class="choose-list container">
+        <table class="grace-table">
+            <caption>
+                <h2>Шкала GRACE</h2>
+            </caption>
+            <tr>
+                <td>
+                    <label for="age">
+                        Возраст, лет <span>*</span>
+                    </label>
+                    <br>
+                    <input type="text" id="age" name="age">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="chss">
+                        ЧСС, уд/мин <span>*</span>
+                    </label>
+                    <br>
+                    <input type="text" id="chss" name="chss">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="systolic">
+                        Систолическое АД, мм. рт. ст. <span>*</span>
+                    </label>
+                    <br>
+                    <input type="text" id="systolic" name="systolic">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="creatinine">
+                        Креатинин, мкмоль/л <span>*</span>
+                    </label>
+                    <br>
+                    <input type="text" id="creatinine" name="creatinine">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="heart-stop">
+                        <input type="checkbox" id="heart-stop" name="heart-stop" value="39">
+                        Остановка сердца (на момент поступления)
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="segment-st">
+                        <input type="checkbox" id="segment-st" name="segment-st" value="28">
+                        Отклонение сегмента
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="high-enzymes">
+                        <input type="checkbox" id="high-enzymes" name="high-enzymes" value="14">
+                        Высокий уровень сердечных ферментов
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="failure">
+                        Класс сердечной недостаточности
+                        (по классификации Killip)
+                    </label>
+                    <br>
+                    <select id="failure" name="failure">
+                        <option value="0">Отсутствие признаков застойной сердечной недостаточности (Класс I)</option>
+                        <option value="20">Наличие хрипов в легких и/или повышенного давления в югулярных венах (Класс II)</option>
+                        <option value="39">Наличие отека легких (Класс III)</option>
+                        <option value="59">Наличие кардиогенного шока (Класс IV)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" id="calculate-btn" class="btn btn-primary" value="Рассчитать">
+                    <input type="button" id="clear-btn" class="btn btn-secondary" value="Сброс">
+                </td>
+            </tr>
+            <tr>
+                <td class="result">
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var data = "Result";
+    $('input').keypress(function(event){
+        if (event.which < 48 || event.which > 57) return false;
+    });
+
+    $('#clear-btn').click(function () {
+        $('input').prop('checked',false);
+        $('select option[value=0]').prop('selected', true);
+        $('input[type=text]').val('');
+        $(".alert").remove();
+    });
+
+    $('#calculate-btn').click(function () {
+       $.ajax({
+           type: 'GET',
+           url: 'grace.php',
+           data: {
+               age: $('#age').val(),
+               chss: $('#chss').val(),
+               systolic: $('#systolic').val(),
+               creatinine: $('#creatinine').val(),
+               heartStop: $('input[name=heart-stop]:checked').val(),
+               segmentSt: $('input[name=segment-st]:checked').val(),
+               highEnzymes: $('input[name=high-enzymes]:checked').val(),
+               failure: $('#failure').val()
+           }
+       })
+           .done(function (result) {
+               $('.result').html(result);
+           })
+           .fail(function () {
+               $(".result").html("<div class=\"alert alert-danger\">Ошибка сервера!</div>")
+           });
+    });
+</script>
+</html>

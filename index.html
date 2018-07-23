@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Практика</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Задания по практике</h2>
+        <div class="calcs">
+            <h4>Калькуляторы</h4>
+            <a href="grace-ajax.html">Шкала GRACE</a>
+            <a href="hant-ajax.html">Шкала Ханта Хесса</a>
+            <a href="geneva-ajax.html">Оценка вероятности тромбоэмболии легочной артерии по шкале Geneva</a>
+        </div>
+
+        <div class="tasks">
+            <h4>Задачи по PHP</h4>
+        </div>
+    </div>
+</body>
+<script>
+    for (var i = 1; i <= 41; i++) {
+        $(".tasks").append("<a href=\"" + i + ".php\">" + i + " Task</a>");
+    }
+</script>
+</html>

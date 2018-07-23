@@ -1,0 +1,8 @@
+caption {
+    text-align: left;
+    caption-side: top;
+}
+
+td {
+    padding: 5px;
+}
